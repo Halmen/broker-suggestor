@@ -9,7 +9,7 @@ const listenerMiddleware = createListenerMiddleware();
 
 listenerMiddleware.startListening({
   actionCreator: updateTrackingList,
-  effect: async (action) => {
+  effect: (action) => {
     sendEvent({
       type: action.payload.event,
       brokerId: action.payload.id,
