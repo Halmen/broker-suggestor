@@ -96,12 +96,6 @@ a {
   text-decoration: none;
 }
 
-p,
-h4,
-h6 {
-  font-weight: 700;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: white;

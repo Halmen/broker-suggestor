@@ -1,21 +1,38 @@
-import { combineReducers, Middleware } from "redux";
-import { brokerDataSlice } from "@/redux/slices/brokerDataSlice";
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import brokerDataSliceReduce from "@/redux/slices/brokerDataSlice";
+import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
+import {
+  updateTrackingList,
+  UpdateTrackingListPayload,
+} from "@/redux/slices/brokerDataSlice";
+import { eventIdMap, sendEvent, MeasurementId } from "@/common/consts";
 import { useDispatch } from "react-redux";
 
-type AppThunkExtra = {};
+const listenerMiddleware = createListenerMiddleware();
+
+listenerMiddleware.startListening({
+  actionCreator: updateTrackingList,
+  effect: async (action) => {
+    sendEvent({
+      type: action.payload.event,
+      brokerId: action.payload.id,
+      measurementId: eventIdMap[action.payload.list] as MeasurementId,
+    });
+  },
+});
 
 export const makeStore = () => {
   const reducer = combineReducers({
-    brokerData: brokerDataSlice.reducer,
+    brokerData: brokerDataSliceReduce,
   });
 
   return configureStore({
     reducer,
     devTools: {
-      name: "BrokerChooser Homework",
+      name: "BrokerSuggester",
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().prepend(listenerMiddleware.middleware),
   });
 };
 
@@ -24,12 +41,6 @@ export type AppStore = ReturnType<typeof makeStore>;
 export type AppState = ReturnType<AppStore["getState"]>;
 
 export type AppDispatch = AppStore["dispatch"];
-
-export type AppAsyncThunkConfig = {
-  state: AppState;
-  dispatch: AppDispatch;
-  extra: AppThunkExtra;
-};
 
 export const useAppDispatch = () => {
   return useDispatch<AppDispatch>();

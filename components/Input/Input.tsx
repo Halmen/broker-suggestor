@@ -1,4 +1,4 @@
-import { KeyboardEvent } from "react";
+import { useEffect, useState, useCallback, ChangeEvent } from "react";
 import { css } from "@linaria/core";
 import {
   OutlinedInput,
@@ -7,33 +7,52 @@ import {
   IconButton,
 } from "@mui/material";
 
-interface Props {
-  onChange: (event: KeyboardEvent<HTMLDivElement>) => void;
+interface EndAdornmentProps {
+  onReset: () => void;
 }
 
-const EndAdornment = () => (
-  <IconButton onClick={() => console.log("ghecci")}>x</IconButton>
+const EndAdornment = ({ onReset }: EndAdornmentProps) => (
+  <IconButton onClick={onReset}>x</IconButton>
 );
 
-const Input = ({ onChange = () => null }: Props) => (
-  <div className={inputContainerCSS}>
-    <Typography>Filter by name</Typography>
-    <OutlinedInput
-      id="outlined-adornment-weight"
-      className={inputCss}
-      placeholder="Type Broker Name"
-      endAdornment={
-        <InputAdornment position="end">
-          <EndAdornment />
-        </InputAdornment>
-      }
-    />
-  </div>
-);
+interface Props {
+  onKeyDown: (value: string) => void;
+}
+
+const Input = ({ onKeyDown = () => null }: Props) => {
+  const [inputValue, setInputValue] = useState("");
+  const onReset = useCallback(() => setInputValue(""), []);
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+      setInputValue(event.target.value),
+    []
+  );
+
+  useEffect(() => {
+    onKeyDown(inputValue);
+  }, [inputValue]);
+  return (
+    <div className={inputContainerCSS}>
+      <Typography>Filter by name</Typography>
+      <OutlinedInput
+        id="outlined-adornment-weight"
+        className={inputCss}
+        value={inputValue}
+        onChange={onChange}
+        placeholder="Type Broker Name"
+        endAdornment={
+          <InputAdornment position="end">
+            <EndAdornment onReset={onReset} />
+          </InputAdornment>
+        }
+      />
+    </div>
+  );
+};
 
 const inputContainerCSS = css`
   height: 120px;
-  margin-top: 170px;
+  margin-top: 140px;
 
   @media (min-width: 1220px) {
     margin-top: 0;
