@@ -40,10 +40,12 @@ const brokerDataSlice = createSlice({
       action: PayloadAction<UpdateTrackingListPayload>
     ) {
       const { event, list, id } = action.payload;
-      state.trackingList[event][list] = [
-        ...state.trackingList[event][list],
-        id,
-      ];
+      if (!state.trackingList[event][list].includes(id)) {
+        state.trackingList[event][list] = [
+          ...state.trackingList[event][list],
+          id,
+        ];
+      }
     },
   },
 });

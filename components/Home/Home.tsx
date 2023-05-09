@@ -2,9 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useAppDispatch } from "@/redux/store";
-import { brokerDataSelector } from "@/redux/selector/brokerDataSelector";
 import { updateTrackingList } from "@/redux/slices/brokerDataSlice";
-import { useSelector } from "react-redux";
 import { exampleBrokerData } from "@/data/brokers";
 import Input from "@/components/Input/Input";
 import { Broker } from "@/common/interfaces";
@@ -29,9 +27,7 @@ const findTopFive = (condition: "isStock" | "isForex"): Broker[] => {
 
 const Home = () => {
   const [filteredBrokerList, setFilteredBrokerList] = useState<Broker[]>([]);
-  const { trackingList } = useSelector(brokerDataSelector);
   const dispatch = useAppDispatch();
-
   const listData = filteredBrokerList.length
     ? filteredBrokerList
     : exampleBrokerData;
@@ -45,9 +41,7 @@ const Home = () => {
 
   const updateEvent = useCallback(
     (id: number, event: eventType, list: listType) => {
-      if (!trackingList[event][list].includes(id)) {
-        dispatch(updateTrackingList({ event, list, id }));
-      }
+      dispatch(updateTrackingList({ event, list, id }));
     },
     [updateTrackingList]
   );

@@ -9,12 +9,17 @@ const listenerMiddleware = createListenerMiddleware();
 
 listenerMiddleware.startListening({
   actionCreator: updateTrackingList,
-  effect: (action) => {
-    sendEvent({
-      type: action.payload.event,
-      brokerId: action.payload.id,
-      measurementId: eventIdMap[action.payload.list] as MeasurementId,
-    });
+  effect: async (action, listenerApi) => {
+    const store = listenerApi.getOriginalState() as AppState;
+    const trackingList = store.brokerData.trackingList;
+    const { event, id, list } = action.payload;
+    if (!trackingList[event][list].includes(id)) {
+      sendEvent({
+        type: event,
+        brokerId: id,
+        measurementId: eventIdMap[list] as MeasurementId,
+      });
+    }
   },
 });
 
