@@ -35,7 +35,6 @@ const Input = ({ onKeyDown = () => null }: Props) => {
     <div className={inputContainerCSS}>
       <Typography>Filter by name</Typography>
       <OutlinedInput
-        id="outlined-adornment-weight"
         className={inputCss}
         value={inputValue}
         onChange={onChange}
