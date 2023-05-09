@@ -1,4 +1,19 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+const withLinaria = require("next-with-linaria");
 
-module.exports = nextConfig
+/** @type {import('next-with-linaria').LinariaConfig} */
+const config = {
+  experimental: {
+    appDir: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "brokerchooser.com",
+        port: "",
+        pathname: "/uploads/broker_logos/**",
+      },
+    ],
+  },
+};
+module.exports = withLinaria(config);

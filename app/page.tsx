@@ -1,95 +1,95 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
 
-export default function Home() {
+import { Provider } from "react-redux";
+import { useMemo } from "react";
+import { makeStore } from "@/redux/store";
+import { exampleBrokerData } from "@/data/brokers";
+import Input from "@/components/Input/Input";
+import { Broker } from "@/common/interfaces";
+import BrokerCard from "@/components/BrokerCard/BrokerCard";
+import BrokerTopTable from "@/components/BrokerTopTable/BrokerTopTable";
+import { Typography } from "@mui/material";
+import { css } from "@linaria/core";
+
+const findTopFive = (condition: "isStock" | "isForex"): Broker[] => {
+  let topFiveList = [];
+  let index = 0;
+  while (topFiveList.length < 5) {
+    if (exampleBrokerData[index]?.[condition]) {
+      topFiveList.push(exampleBrokerData[index]);
+    }
+    index++;
+  }
+  return topFiveList;
+};
+
+const Home = () => {
+  const store = useMemo(() => {
+    return makeStore();
+  }, []);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
+    <main>
+      <Typography variant="h4" align="center" className={headingCss}>
+        Find the right broker and invest on your own
+      </Typography>
+      <div className={container}>
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          <Input />
+          <div className={brokerList}>
+            {exampleBrokerData.map(({ id, name, linkUrl, logoUrl }) => (
+              <BrokerCard
+                id={id}
+                href={linkUrl}
+                logoUrl={logoUrl}
+                stockName={name}
+                key={id}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+        <BrokerTopTable
+          stockList={findTopFive("isStock")}
+          forexList={findTopFive("isForex")}
         />
       </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
-}
+  );
+};
+
+const brokerList = css`
+  display: flex;
+  flex-direction: column;
+  grid-gap: 13px;
+  overflow-y: auto;
+  width: min-content;
+  height: 700px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const headingCss = css`
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+
+  @media (min-width: 500px) {
+    font-size: 2.125rem;
+  }
+`;
+
+const container = css`
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+
+  @media (min-width: 1220px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: unset;
+  }
+`;
+
+export default Home;
