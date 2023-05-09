@@ -58,10 +58,18 @@ const brokerCardCss = css`
   align-items: center;
   min-height: 90px;
   height: 90px;
-  width: 450px;
+  width: 380px;
 
   p {
     font-weight: 700;
+    font-size: 0.75rem;
+
+    @media (min-width: 530px) {
+      font-size: 1rem;
+    }
+  }
+  @media (min-width: 440px) {
+    width: 400px;
   }
 
   @media (min-width: 530px) {
