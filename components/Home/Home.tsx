@@ -43,7 +43,7 @@ const Home = () => {
     (id: number, event: eventType, list: listType) => {
       dispatch(updateTrackingList({ event, list, id }));
     },
-    [updateTrackingList]
+    []
   );
 
   return (
