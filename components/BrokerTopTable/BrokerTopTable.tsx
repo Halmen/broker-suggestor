@@ -55,7 +55,7 @@ const BrokerTopTable = ({
   onDispatch,
 }: Props) => {
   const [value, setValue] = useState("1");
-  const handleChange = (event: SyntheticEvent, newValue: string) => {
+  const handleChange = (_: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
@@ -73,7 +73,7 @@ const BrokerTopTable = ({
             margin: "0 auto",
           }}
         >
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <TabList onChange={handleChange}>
             <Tab label="Stock" value="1" />
             <Tab label="Forex" value="2" />
           </TabList>

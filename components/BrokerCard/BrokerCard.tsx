@@ -35,9 +35,7 @@ const BrokerCard = ({
           alt={`${stockName} logo`}
         ></Image>
       </div>
-      <Typography component="p" className="content-container">
-        {stockName}
-      </Typography>
+      <Typography component="p">{stockName}</Typography>
       <Button
         target="_blank"
         href={href}

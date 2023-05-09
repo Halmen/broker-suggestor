@@ -1,10 +1,7 @@
 import { combineReducers } from "redux";
 import brokerDataSliceReduce from "@/redux/slices/brokerDataSlice";
 import { configureStore, createListenerMiddleware } from "@reduxjs/toolkit";
-import {
-  updateTrackingList,
-  UpdateTrackingListPayload,
-} from "@/redux/slices/brokerDataSlice";
+import { updateTrackingList } from "@/redux/slices/brokerDataSlice";
 import { eventIdMap, sendEvent, MeasurementId } from "@/common/consts";
 import { useDispatch } from "react-redux";
 
