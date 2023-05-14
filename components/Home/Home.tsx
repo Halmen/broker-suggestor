@@ -112,7 +112,6 @@ const container = css`
   align-items: center;
 
   @media (min-width: 1220px) {
-    display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: unset;

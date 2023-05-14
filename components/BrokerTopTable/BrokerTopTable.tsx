@@ -38,7 +38,7 @@ const ScoreCard = ({ data, index, list, onDispatch }: ScoreCardProps) => {
           <Typography component="p">{data.name}</Typography>
         </div>
       </div>
-      <div> {`${data.score} > `}</div>
+      <Typography className="companyScore"> {`${data.score} > `}</Typography>
     </Link>
   );
 };
@@ -121,11 +121,23 @@ const tableWrapperCss = css`
   background-color: white;
   height: fit-content;
   border-radius: 10px;
-  padding: 25px;
+  padding: 25px 0;
+
+  @media (min-width: 570px) {
+    padding: 25px;
+  }
 
   p,
   h6 {
     font-weight: 700;
+  }
+
+  .MuiTabPanel-root {
+    padding: 24px 0;
+
+    @media (min-width: 570px) {
+      padding: 24px;
+    }
   }
 `;
 
@@ -138,6 +150,10 @@ const linkCss = css`
   font-weight: 700;
   color: black;
   border-bottom: 1px solid #cbcbcb;
+
+  .companyScore {
+    width: 40px;
+  }
 `;
 
 const middleColumnCss = css`

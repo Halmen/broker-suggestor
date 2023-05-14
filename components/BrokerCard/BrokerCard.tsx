@@ -41,6 +41,7 @@ const BrokerCard = ({
         href={href}
         variant="contained"
         onClick={onButtonClick}
+        className={visitBrokerButtonCss}
         endIcon={<p>➪</p>}
       >
         Visit Broker
@@ -56,7 +57,7 @@ const brokerCardCss = css`
   align-items: center;
   min-height: 90px;
   height: 90px;
-  width: 380px;
+  width: 306px;
 
   p {
     font-weight: 700;
@@ -66,6 +67,11 @@ const brokerCardCss = css`
       font-size: 1rem;
     }
   }
+
+  @media (min-width: 387px) {
+    width: 380px;
+  }
+
   @media (min-width: 440px) {
     width: 400px;
   }
@@ -79,5 +85,26 @@ const imageWrapperCss = css`
   box-shadow: rgba(0, 0, 0, 0.35) 0px -10px 15px;
   border-radius: 10px;
   height: -webkit-fill-available;
+`;
+
+const visitBrokerButtonCss = css`
+  font-size: 0;
+  font-weight: 700;
+
+  .MuiButton-endIcon {
+    margin: 0;
+
+    @media (min-width: 390px) {
+      margin: 0 -4px 0 8px;
+    }
+  }
+
+  @media (min-width: 390px) {
+    font-size: 0.75rem;
+  }
+
+  @media (min-width: 530px) {
+    font-size: 1rem;
+  }
 `;
 export default BrokerCard;
